@@ -2,6 +2,7 @@ import React from 'react';
 
 
 
+
 class Products extends React.Component{
 
     constructor(props) {
@@ -10,9 +11,10 @@ class Products extends React.Component{
         this.state = {
             apiData: []
         }
+        this.getData = this.getData.bind(this);
     }
 
-
+    
 
     // loadXMLDoc() {
     //     var xhttp = new XMLHttpRequest();
@@ -28,10 +30,6 @@ class Products extends React.Component{
     //   }
       
 
-    //   buildData = (data) => {
-    //     console.log(data)
-    //     this.setState({apiData:data})
-    //   }
 
       getData() {
           let url = 'https://fakestoreapi.com/products/';
@@ -39,7 +37,9 @@ class Products extends React.Component{
           .then(res=>res.json())
           .then((data) => {
               this.setState({apiData: data.title})
-          })
+          }
+          )
+         
       }
 
 
@@ -47,16 +47,10 @@ class Products extends React.Component{
         return(
             <div >
                 <button className="form input todo" onClick={this.getData} >Fetch</button>
-            </div>
             
-        )
-    //     return(
-    //         <div>
-    //   {apiData.map((d, idx) => {
-    //      return (<li key={idx}>{d.title}</li>)
-    //    })}
-    //   </div>
-    //     )
+            </div>
+         )
+       
     }
 
 } 
