@@ -2,57 +2,67 @@ import React from 'react';
 
 
 
-
 class Products extends React.Component{
 
     constructor(props) {
         super(props);
-        //loadXMLDoc()= this.loadXMLDoc.bind(this)
-        this.state = {
+              this.state = {
             apiData: []
         }
-        this.getData = this.getData.bind(this);
+              this.componentDidMount = this.componentDidMount.bind(this);
+        
     }
-
+  
     
-
-    // loadXMLDoc() {
-    //     var xhttp = new XMLHttpRequest();
-    //     xhttp.onreadystatechange = function() {
-    //       if (this.readyState == 4 && this.status == 200) {
-    //     //var apiData = this.responseText;
-    //     //console.log(apiData)
-    //     this.setState({apiData:this.responseText})
-    //     //console.log(apiData)
-    //     } };
-    //     xhttp.open("GET", 'https://fakestoreapi.com/products/', true);
-    //     xhttp.send();
-    //   }
-      
-
-
-      getData() {
-          let url = 'https://fakestoreapi.com/products/';
-          fetch(url)
-          .then(res=>res.json())
-          .then((data) => {
-              this.setState({apiData: data.title})
-          }
-          )
-         
-      }
-
-
     render() {
-        return(
-            <div >
-                <button className="form input todo" onClick={this.getData} >Fetch</button>
+        <div>
+        <button onClick={this.componentDidMount} >Fetch</button>
+           </div>
+                             
+         var {isLoaded,items} = this.state;
+
+         if(!isLoaded){
+           return  <div><h1>Loading...</h1></div>
             
-            </div>
+     
+         } 
+         else {
+         
+         
+         return (
+           <div className="App">
+     
+                <ul>
+                <div class="row">
+                 {items.map(item => (
+                  <li key = {item.id}  >
+                      <div class="column">
+                      <img class='img' src={item.image}  width="150" height="200"></img> </div> 
+                           <h2 > {item.title} </h2>
+                          <h2 >$ {item.price}</h2> 
+                           <h3 >{item.category}</h3>        
+                  </li>
+                 ))}
+                </div>
+                </ul>
+     
+     
+           </div>
          )
+         }
        
     }
-
-} 
+    componentDidMount(){
+        fetch('https://fakestoreapi.com/products')
+                  .then(res=>res.json())
+                  .then(json=>{
+                    this.setState({
+                      isLoaded:true,
+                      items: json,
+                    })
+                  })
+      }
+    
+}
 
 export default Products;
